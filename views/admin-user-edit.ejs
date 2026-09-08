@@ -1,0 +1,75 @@
+<%- include('partials/app-header') %>
+
+<div class="container-fluid">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="h3 fw-bold text-dark mb-1">Modifier l'utilisateur</h1>
+      <p class="text-muted mb-0">Modifier les informations du compte #<%= targetUser.id %> (<%= targetUser.name %>).</p>
+    </div>
+    <a href="/admin/users" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left me-1"></i> Retour à la liste
+    </a>
+  </div>
+
+  <div class="card border-0 shadow-sm bg-white p-4" style="max-width: 800px;">
+    <form action="/admin/users/<%= targetUser.id %>" method="POST">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="name" class="form-label fw-semibold">Nom complet <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="name" name="name" value="<%= targetUser.name %>" required>
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label fw-semibold">Adresse e-mail <span class="text-danger">*</span></label>
+          <input type="email" class="form-control" id="email" name="email" value="<%= targetUser.email %>" required>
+        </div>
+        <div class="col-md-6">
+          <label for="role" class="form-label fw-semibold">Rôle <span class="text-danger">*</span></label>
+          <select class="form-select" id="role" name="role" required onchange="toggleMedecinFields(this.value)">
+            <option value="patient" <%= targetUser.role === 'patient' ? 'selected' : '' %>>Patient</option>
+            <option value="medecin" <%= targetUser.role === 'medecin' ? 'selected' : '' %>>Médecin</option>
+            <option value="admin" <%= targetUser.role === 'admin' ? 'selected' : '' %>>Administrateur</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="phone" class="form-label fw-semibold">Téléphone</label>
+          <input type="tel" class="form-control" id="phone" name="phone" value="<%= targetUser.phone || '' %>">
+        </div>
+
+        <div id="medecinFields" class="row g-3 col-12 <%= targetUser.role === 'medecin' ? '' : 'd-none' %> mt-1">
+          <div class="col-md-6">
+            <label for="specialite" class="form-label fw-semibold">Spécialité</label>
+            <input type="text" class="form-control" id="specialite" name="specialite" value="<%= targetUser.specialite || '' %>">
+          </div>
+          <div class="col-md-6">
+            <label for="centre_sante" class="form-label fw-semibold">Centre de santé / Clinique</label>
+            <input type="text" class="form-control" id="centre_sante" name="centre_sante" value="<%= targetUser.centre_sante || '' %>">
+          </div>
+          <div class="col-md-6">
+            <label for="ville" class="form-label fw-semibold">Ville</label>
+            <input type="text" class="form-control" id="ville" name="ville" value="<%= targetUser.ville || '' %>">
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 pt-2 d-flex gap-2">
+        <button type="submit" class="btn btn-primary px-4 fw-semibold">
+          <i class="bi bi-check-lg me-1"></i> Mettre à jour
+        </button>
+        <a href="/admin/users" class="btn btn-outline-secondary">Annuler</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function toggleMedecinFields(val) {
+  const fields = document.getElementById('medecinFields');
+  if (val === 'medecin') {
+    fields.classList.remove('d-none');
+  } else {
+    fields.classList.add('d-none');
+  }
+}
+</script>
+
+<%- include('partials/app-footer') %>

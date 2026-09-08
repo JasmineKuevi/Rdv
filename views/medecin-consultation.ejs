@@ -1,0 +1,78 @@
+<%- include('partials/app-header') %>
+
+<div class="container-fluid">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="h3 fw-bold text-dark mb-1">📝 Nouvel acte médical / Consultation</h1>
+      <p class="text-muted mb-0">Renseignez le diagnostic, observations et ordonnance pour le dossier patient.</p>
+    </div>
+    <a href="/medecin/rendez-vous" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left me-1"></i> Retour
+    </a>
+  </div>
+
+  <div class="card shadow-sm border-0 bg-white mb-5 mx-auto" style="max-width: 900px; border-top: 5px solid #005BAC !important;">
+    <div class="card-header bg-primary text-white fw-bold d-flex flex-wrap justify-content-between align-items-center py-3">
+      <div>
+        <i class="bi bi-person-fill-check me-2"></i>Dossier patient sélectionné
+      </div>
+      <small class="opacity-75">Praticien : Dr <%= user.name %> (<%= user.specialite %>)</small>
+    </div>
+
+    <div class="card-body p-4">
+      <form method="POST" action="/medecin/consultations">
+        <!-- Patient selection -->
+        <div class="mb-4">
+          <label for="patient_id" class="form-label fw-bold">Patient <span class="text-danger">*</span></label>
+          <select class="form-select form-select-lg" id="patient_id" name="patient_id" required>
+            <% patients.forEach(function(p) { %>
+              <option value="<%= p.id %>" <%= (selectedPatientId == p.id) ? 'selected' : '' %>>
+                <%= p.name %> (N° MED-<%= String(p.id).padStart(5, '0') %>) — <%= p.phone || 'Sans téléphone' %>
+              </option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label for="date_consultation" class="form-label fw-bold">Date de la consultation <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="date_consultation" name="date_consultation" value="<%= new Date().toISOString().slice(0, 10) %>" required>
+          </div>
+          <div class="col-md-6">
+            <label for="type_acte" class="form-label fw-bold">Type d'acte <span class="text-danger">*</span></label>
+            <select class="form-select" id="type_acte" name="type_acte" required>
+              <option value="Consultation générale">Consultation générale</option>
+              <option value="Examen de spécialité">Examen de spécialité</option>
+              <option value="Suivi post-opératoire">Suivi post-opératoire</option>
+              <option value="Urgence médicale">Urgence médicale</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="motif" class="form-label fw-bold">Motif de la consultation <span class="text-danger">*</span></label>
+          <textarea class="form-control" id="motif" name="motif" rows="2" placeholder="Ex: Douleur abdominale, suivi de tension..." required></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="diagnostic" class="form-label fw-bold">Diagnostic / Observations cliniques <span class="text-danger">*</span></label>
+          <textarea class="form-control" id="diagnostic" name="diagnostic" rows="3" placeholder="Ex: Examen cardio-vasculaire normal. Pression 13/8. Rythme régulier." required></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="prescription" class="form-label fw-bold">Prescription / Traitement recommandé</label>
+          <textarea class="form-control" id="prescription" name="prescription" rows="4" placeholder="Ex: 1) Paracétamol 1g 3x/jour si douleur&#10;2) Repos médical de 48h"></textarea>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 pt-2">
+          <a href="/medecin/rendez-vous" class="btn btn-outline-secondary">Annuler</a>
+          <button type="submit" class="btn btn-primary btn-lg px-4 fw-semibold">
+            <i class="bi bi-check-circle me-1"></i> Enregistrer l'acte médical
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/app-footer') %>

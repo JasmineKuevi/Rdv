@@ -1,0 +1,223 @@
+<%- include('partials/app-header') %>
+
+<div class="container-fluid">
+  <!-- Header with patient details & export -->
+  <div class="card border-0 shadow-sm bg-white mb-4 p-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div class="d-flex align-items-center gap-3">
+        <div class="rounded-circle bg-primary bg-opacity-10 p-3 text-primary">
+          <i class="bi bi-file-earmark-medical fs-2"></i>
+        </div>
+        <div>
+          <h1 class="h4 fw-bold text-dark mb-1">Dossier Médical Numérique</h1>
+          <div class="d-flex flex-wrap gap-3 text-muted small">
+            <span><strong>Patient :</strong> <%= user.name %></span>
+            <span><strong>N° Dossier :</strong> MED-<%= String(user.id).padStart(5, '0') %></span>
+            <span><strong>Date de naissance :</strong> <%= user.dob || '14/06/1988' %></span>
+            <span><strong>Groupe sanguin :</strong> O+</span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-primary" onclick="window.print()">
+          <i class="bi bi-printer me-1"></i> Imprimer
+        </button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadDocModal">
+          <i class="bi bi-cloud-upload me-1"></i> Ajouter un document
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Consultations history -->
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm bg-white mb-4">
+        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+          <h2 class="h5 fw-bold mb-0 text-dark">
+            <i class="bi bi-journal-medical me-2 text-primary"></i>Historique des consultations
+          </h2>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle"><%= consultations.length %> acte(s)</span>
+        </div>
+        <div class="card-body p-4">
+          <% if (consultations && consultations.length > 0) { %>
+            <div class="timeline">
+              <% consultations.forEach(function(c) { %>
+                <div class="border-start border-2 border-primary ps-4 pb-4 position-relative">
+                  <div class="position-absolute translate-middle-x bg-primary rounded-circle" style="width: 12px; height: 12px; left: -1px; top: 6px;"></div>
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <h3 class="h6 fw-bold text-dark mb-0"><%= c.type %> — <%= c.doctor_name %></h3>
+                    <span class="badge bg-light text-muted border"><%= new Date(c.date).toLocaleDateString('fr-FR') %></span>
+                  </div>
+                  <p class="text-primary small mb-2"><%= c.doctor_specialite %></p>
+                  
+                  <div class="bg-light p-3 rounded-2 mb-2">
+                    <strong class="small text-dark d-block mb-1">Motif :</strong>
+                    <p class="small text-muted mb-2"><%= c.motif %></p>
+                    <strong class="small text-dark d-block mb-1">Diagnostic :</strong>
+                    <p class="small text-muted mb-2"><%= c.diagnostic %></p>
+                    <% if (c.prescription) { %>
+                      <strong class="small text-dark d-block mb-1 text-success">Prescription délivrée :</strong>
+                      <p class="small text-dark mb-0 font-monospace bg-white p-2 border rounded"><%= c.prescription %></p>
+                    <% } %>
+                  </div>
+                </div>
+              <% }); %>
+            </div>
+          <% } else { %>
+            <p class="text-muted text-center py-4">Aucune consultation enregistrée pour l'instant.</p>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Prescriptions -->
+      <div class="card border-0 shadow-sm bg-white">
+        <div class="card-header bg-white py-3 border-bottom">
+          <h2 class="h5 fw-bold mb-0 text-dark">
+            <i class="bi bi-capsule me-2 text-primary"></i>Traitements en cours
+          </h2>
+        </div>
+        <div class="card-body p-4">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+              <div>
+                <strong class="text-dark">Magnésium B6</strong>
+                <div class="small text-muted">1 comprimé matin et soir au cours du repas</div>
+              </div>
+              <span class="badge bg-success-subtle text-success">En cours (30 jours)</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+              <div>
+                <strong class="text-dark">Paracétamol 500mg</strong>
+                <div class="small text-muted">En cas de douleurs ou céphalées (max 3g/jour)</div>
+              </div>
+              <span class="badge bg-secondary-subtle text-secondary">Si besoin</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar: Allergies, Vaccins, Documents -->
+    <div class="col-lg-4">
+      <!-- Allergies & Alertes -->
+      <div class="card border-0 shadow-sm bg-white mb-4">
+        <div class="card-header bg-white py-3 border-bottom">
+          <h2 class="h6 fw-bold mb-0 text-danger">
+            <i class="bi bi-exclamation-octagon me-2"></i>Allergies & Facteurs de risque
+          </h2>
+        </div>
+        <div class="card-body p-3">
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge bg-danger-subtle text-danger border border-danger-subtle p-2">Pénicilline (réaction cutanée)</span>
+            <span class="badge bg-warning-subtle text-dark border border-warning-subtle p-2">Arachides (modérée)</span>
+          </div>
+          <small class="text-muted">Mentionnez systématiquement vos allergies avant toute nouvelle prescription.</small>
+        </div>
+      </div>
+
+      <!-- Vaccins -->
+      <div class="card border-0 shadow-sm bg-white mb-4">
+        <div class="card-header bg-white py-3 border-bottom">
+          <h2 class="h6 fw-bold mb-0 text-dark">
+            <i class="bi bi-shield-plus me-2 text-primary"></i>Carnet de vaccination
+          </h2>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group list-group-flush small">
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <div class="fw-semibold">Tétanos - Diphtérie - Polio</div>
+                <div class="text-muted">Dernier rappel : Janvier 2023</div>
+              </div>
+              <span class="badge bg-success-subtle text-success">À jour</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <div class="fw-semibold">Fièvre Jaune</div>
+                <div class="text-muted">Vacciné à vie (Certificat OMS)</div>
+              </div>
+              <span class="badge bg-success-subtle text-success">Valide</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <div class="fw-semibold">Hépatite B</div>
+                <div class="text-muted">3 doses complètes</div>
+              </div>
+              <span class="badge bg-success-subtle text-success">Immunisé</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Documents joints -->
+      <div class="card border-0 shadow-sm bg-white">
+        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+          <h2 class="h6 fw-bold mb-0 text-dark">
+            <i class="bi bi-paperclip me-2 text-primary"></i>Documents & Résultats
+          </h2>
+          <button class="btn btn-sm btn-link p-0 text-decoration-none" data-bs-toggle="modal" data-bs-target="#uploadDocModal">
+            + Ajouter
+          </button>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group list-group-flush small">
+            <% documents.forEach(function(doc) { %>
+              <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-file-earmark-pdf text-danger fs-5"></i>
+                  <div>
+                    <div class="fw-semibold text-truncate" style="max-width: 160px;"><%= doc.title %></div>
+                    <div class="text-muted"><%= doc.type %> • <%= doc.size %></div>
+                  </div>
+                </div>
+                <a href="#" class="btn btn-sm btn-light" title="Télécharger" onclick="alert('Téléchargement du document <%= doc.title %>'); return false;">
+                  <i class="bi bi-download"></i>
+                </a>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Document Modal -->
+<div class="modal fade" id="uploadDocModal" tabindex="-1" aria-labelledby="uploadDocModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="/patient/dossier/documents" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadDocModalLabel">Ajouter un document au dossier</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="title" class="form-label fw-semibold">Nom du document</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Ex: Analyse_sang_2026.pdf" required>
+          </div>
+          <div class="mb-3">
+            <label for="type" class="form-label fw-semibold">Type de document</label>
+            <select class="form-select" id="type" name="type" required>
+              <option value="Analyse">Analyse biologique</option>
+              <option value="Imagerie">Imagerie / Radio</option>
+              <option value="Ordonnance">Ordonnance</option>
+              <option value="Certificat">Certificat médical</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Fichier (PDF ou image)</label>
+            <input type="file" class="form-control" accept=".pdf,.png,.jpg,.jpeg">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary">Enregistrer le document</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/app-footer') %>

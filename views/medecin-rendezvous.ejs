@@ -1,0 +1,86 @@
+<%- include('partials/app-header') %>
+
+<div class="container-fluid">
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+    <div>
+      <h1 class="h3 fw-bold text-dark mb-1">Espace Praticien — Dr <%= user.name %></h1>
+      <p class="text-muted mb-0"><%= user.specialite %> • <%= user.centre_sante %>, <%= user.ville %></p>
+    </div>
+    <a href="/medecin/nouvelle-consultation" class="btn btn-primary fw-semibold">
+      <i class="bi bi-journal-plus me-1"></i> Nouvel acte médical
+    </a>
+  </div>
+
+  <!-- Appointments for this doctor -->
+  <div class="card border-0 shadow-sm bg-white mb-4">
+    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+      <h2 class="h5 fw-bold mb-0 text-dark">
+        <i class="bi bi-calendar-check me-2 text-primary"></i>Mes Rendez-vous patients
+      </h2>
+      <span class="badge bg-primary-subtle text-primary border"><%= appointments.length %> rendez-vous</span>
+    </div>
+    <div class="card-body p-0">
+      <% if (appointments.length > 0) { %>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th class="ps-4">Patient</th>
+                <th>Date & Heure</th>
+                <th>Motif</th>
+                <th>Statut</th>
+                <th class="text-end pe-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% appointments.forEach(function(a) { %>
+                <tr>
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center gap-2">
+                      <img src="https://ui-avatars.com/api/?name=<%= encodeURIComponent(a.patient_name) %>&background=eaf5ff&color=005BAC&size=48" class="rounded-circle" width="36" height="36" alt="Patient">
+                      <div>
+                        <strong class="text-dark"><%= a.patient_name %></strong>
+                        <small class="text-muted d-block">ID: #PAT-<%= a.user_id %></small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold">
+                      <%= new Date(a.scheduled_at).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' }) %>
+                    </div>
+                    <small class="text-muted"><%= new Date(a.scheduled_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) %></small>
+                  </td>
+                  <td><span class="text-muted small"><%= a.reason || 'Consultation de routine' %></span></td>
+                  <td>
+                    <% if (a.status === 'confirmed') { %>
+                      <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">Confirmé</span>
+                    <% } else if (a.status === 'pending') { %>
+                      <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-2 py-1">En attente</span>
+                    <% } else { %>
+                      <span class="badge bg-secondary-subtle text-secondary border px-2 py-1">Effectué</span>
+                    <% } %>
+                  </td>
+                  <td class="text-end pe-4">
+                    <div class="d-flex justify-content-end gap-1">
+                      <a href="/medecin/nouvelle-consultation?patient_id=<%= a.user_id %>" class="btn btn-sm btn-outline-primary" title="Effectuer la consultation">
+                        <i class="bi bi-file-medical me-1"></i> Consulter
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="text-center py-5">
+          <i class="bi bi-calendar2-check text-muted display-4 d-block mb-3"></i>
+          <h3 class="h5 text-dark">Aucun rendez-vous pour le moment</h3>
+          <p class="text-muted">Vos futurs rendez-vous patients s'afficheront ici en temps réel.</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/app-footer') %>

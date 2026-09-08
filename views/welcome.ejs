@@ -1,0 +1,184 @@
+<%- include('partials/header') %>
+
+<style>
+    .hero {
+        min-height: calc(100vh - 70px);
+        display: flex;
+        align-items: center;
+        background:
+            linear-gradient(90deg, rgba(8, 52, 95, .92), rgba(7, 90, 168, .74)),
+            url("/images/medical-bg.jpg") center/cover no-repeat;
+        color: #fff;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.2rem, 5vw, 4.4rem);
+        line-height: 1.05;
+        font-weight: 850;
+    }
+
+    .search-panel {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, .22);
+    }
+
+    .metric-band {
+        background: #08345f;
+        color: #fff;
+    }
+
+    .specialty-card img {
+        width: 58px;
+        height: 58px;
+        object-fit: contain;
+    }
+
+    .cta-band {
+        background: linear-gradient(135deg, #075aa8, #08345f);
+        color: #fff;
+    }
+</style>
+
+<section class="hero">
+    <div class="container py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+                <span class="badge text-bg-warning mb-3 px-3 py-2 fw-semibold">Plateforme de santé</span>
+                <h1>Réservez vos soins sans perdre votre journée.</h1>
+                <p class="lead mt-3 mb-4 text-white-50">
+                    Médilink aide les patients à trouver un médecin qualifié, prendre rendez-vous en ligne et retrouver leurs informations de santé dans un espace unique et sécurisé.
+                </p>
+                <div class="d-flex flex-column flex-sm-row gap-3">
+                    <a class="btn btn-warning btn-lg fw-semibold px-4" href="/rendez-vous/nouveau">
+                        <i class="bi bi-calendar-plus me-2"></i>Prendre rendez-vous
+                    </a>
+                    <a class="btn btn-outline-light btn-lg px-4" href="/medecins">
+                        <i class="bi bi-search me-2"></i>Trouver un médecin
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <form class="search-panel p-4" method="GET" action="/medecins">
+                    <h2 class="h5 text-dark fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-geo-alt text-primary"></i> Recherche rapide
+                    </h2>
+                    <div class="mb-3">
+                        <label class="form-label text-muted small fw-semibold" for="q">Spécialité ou médecin</label>
+                        <input class="form-control form-control-lg" id="q" name="q" placeholder="Cardiologie, Dr Mensah...">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted small fw-semibold" for="ville">Ville</label>
+                        <input class="form-control form-control-lg" id="ville" name="ville" placeholder="Lomé, Kara...">
+                    </div>
+                    <button class="btn btn-primary btn-lg w-100 fw-semibold">
+                        <i class="bi bi-search me-2"></i>Rechercher
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="metric-band py-4">
+    <div class="container">
+        <div class="row g-3 text-center">
+            <div class="col-6 col-lg-3"><div class="h2 fw-bold mb-0 text-warning">200+</div><div class="text-white-50">Médecins</div></div>
+            <div class="col-6 col-lg-3"><div class="h2 fw-bold mb-0 text-warning">5k+</div><div class="text-white-50">Patients</div></div>
+            <div class="col-6 col-lg-3"><div class="h2 fw-bold mb-0 text-warning">24h/7</div><div class="text-white-50">Demandes en ligne</div></div>
+            <div class="col-6 col-lg-3"><div class="h2 fw-bold mb-0 text-warning">3</div><div class="text-white-50">Espaces sécurisés</div></div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <img class="img-fluid rounded shadow-sm" src="/images/medilink_why.png" alt="Patient utilisant Médilink" onerror="this.src='/images/patient_bg.jpg'">
+            </div>
+            <div class="col-lg-7">
+                <h2 class="section-title mb-3">Un parcours de soins plus fluide</h2>
+                <p class="text-muted fs-5">La plateforme rassemble les fonctions essentielles pour organiser les consultations sans multiplier les appels et les papiers.</p>
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3">
+                            <div class="feature-icon"><i class="bi bi-calendar-check"></i></div>
+                            <div>
+                                <h3 class="h6 fw-bold mb-1">Rendez-vous rapides</h3>
+                                <p class="text-muted mb-0 small">Choix du médecin, motif et créneau depuis un formulaire clair.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3">
+                            <div class="feature-icon"><i class="bi bi-file-medical"></i></div>
+                            <div>
+                                <h3 class="h6 fw-bold mb-1">Dossier patient</h3>
+                                <p class="text-muted mb-0 small">Un espace personnel pour centraliser ordonnances, vaccins et bilans.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3">
+                            <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+                            <div>
+                                <h3 class="h6 fw-bold mb-1">Accès par rôles</h3>
+                                <p class="text-muted mb-0 small">Patients, médecins et administration ont chacun leur espace dédié.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3">
+                            <div class="feature-icon"><i class="bi bi-hospital"></i></div>
+                            <div>
+                                <h3 class="h6 fw-bold mb-1">Centres partenaires</h3>
+                                <p class="text-muted mb-0 small">Les cabinets et cliniques peuvent rejoindre l'écosystème Médilink.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end gap-3 mb-4">
+            <div>
+                <h2 class="section-title mb-1">Spécialités disponibles</h2>
+                <p class="text-muted mb-0">Quelques services fréquemment recherchés par les patients.</p>
+            </div>
+            <a class="btn btn-outline-primary d-none d-md-inline-flex" href="/specialites">Tout voir</a>
+        </div>
+        <div class="row g-3">
+            <% specialites.slice(0, 4).forEach(function(spec) { %>
+                <div class="col-6 col-lg-3">
+                    <a class="card soft-card specialty-card h-100 text-center text-decoration-none text-dark" href="/specialites/<%= spec.slug %>">
+                        <div class="card-body p-4">
+                            <img src="/images/<%= spec.image %>" alt="<%= spec.name %>" class="mb-3" onerror="this.src='/images/cardio.png'">
+                            <h3 class="h6 fw-bold mb-0"><%= spec.name %></h3>
+                        </div>
+                    </a>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<section class="cta-band py-5">
+    <div class="container">
+        <div class="row align-items-center g-3">
+            <div class="col-lg-8">
+                <h2 class="fw-bold mb-2">Prêt à simplifier votre prochain rendez-vous ?</h2>
+                <p class="lead mb-0 text-white-50">Créez un compte patient ou connectez-vous pour accéder à votre espace de santé.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a class="btn btn-warning btn-lg fw-semibold px-4" href="/register/patient">Commencer</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer') %>

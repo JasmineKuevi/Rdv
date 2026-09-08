@@ -1,0 +1,6 @@
+{
+  "name": "Médilink",
+  "description": "Plateforme de prise de rendez-vous médicaux et de gestion de dossiers de santé",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

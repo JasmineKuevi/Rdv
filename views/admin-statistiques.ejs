@@ -1,0 +1,118 @@
+<%- include('partials/app-header') %>
+
+<div class="container-fluid">
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+    <div>
+      <h1 class="h3 fw-bold text-dark mb-1">Rapports & Statistiques</h1>
+      <p class="text-muted mb-0">Analytique globale de fréquentation et d'activité médicale sur Médilink.</p>
+    </div>
+    <div>
+      <button class="btn btn-outline-primary" onclick="window.print()">
+        <i class="bi bi-printer me-1"></i> Imprimer le rapport
+      </button>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <!-- Stat Cards -->
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm bg-white p-4 h-100">
+        <h2 class="h6 text-muted fw-semibold mb-2">Taux de confirmation RDV</h2>
+        <div class="d-flex align-items-baseline gap-2">
+          <span class="display-6 fw-bold text-success">85%</span>
+          <span class="text-success small"><i class="bi bi-arrow-up-right"></i> +4.2%</span>
+        </div>
+        <div class="progress mt-3" style="height: 6px;">
+          <div class="progress-bar bg-success" style="width: 85%"></div>
+        </div>
+        <small class="text-muted mt-2 d-block">Basé sur les 30 derniers jours</small>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm bg-white p-4 h-100">
+        <h2 class="h6 text-muted fw-semibold mb-2">Délai moyen de prise en charge</h2>
+        <div class="d-flex align-items-baseline gap-2">
+          <span class="display-6 fw-bold text-primary">24h</span>
+          <span class="text-muted small">délai moyen</span>
+        </div>
+        <div class="progress mt-3" style="height: 6px;">
+          <div class="progress-bar bg-primary" style="width: 70%"></div>
+        </div>
+        <small class="text-muted mt-2 d-block">Entre demande et consultation</small>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm bg-white p-4 h-100">
+        <h2 class="h6 text-muted fw-semibold mb-2">Satisfaction Patients</h2>
+        <div class="d-flex align-items-baseline gap-2">
+          <span class="display-6 fw-bold text-warning">4.8/5</span>
+          <span class="text-warning small"><i class="bi bi-star-fill"></i></span>
+        </div>
+        <div class="progress mt-3" style="height: 6px;">
+          <div class="progress-bar bg-warning" style="width: 96%"></div>
+        </div>
+        <small class="text-muted mt-2 d-block">Sur plus de 120 avis vérifiés</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Breakdowns -->
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm bg-white p-4 h-100">
+        <h2 class="h5 fw-bold text-dark mb-3">Répartition par spécialité</h2>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <span>Cardiologie</span>
+            <span class="badge bg-primary rounded-pill">38%</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <span>Pédiatrie</span>
+            <span class="badge bg-primary rounded-pill">26%</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <span>Dermatologie</span>
+            <span class="badge bg-primary rounded-pill">20%</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <span>Ophtalmologie</span>
+            <span class="badge bg-primary rounded-pill">16%</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm bg-white p-4 h-100">
+        <h2 class="h5 fw-bold text-dark mb-3">Activité des centres de santé</h2>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <div>
+              <strong>Clinique Espérance</strong>
+              <div class="small text-muted">Lomé</div>
+            </div>
+            <span class="badge bg-success-subtle text-success border">Forte affluence</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <div>
+              <strong>Centre Saint-Luc</strong>
+              <div class="small text-muted">Lomé</div>
+            </div>
+            <span class="badge bg-info-subtle text-info border">Activité normale</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <div>
+              <strong>Polyclinique Centrale</strong>
+              <div class="small text-muted">Kara</div>
+            </div>
+            <span class="badge bg-info-subtle text-info border">Activité normale</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/app-footer') %>

@@ -1,0 +1,123 @@
+<%- include('partials/app-header') %>
+
+<div class="container-fluid">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="h3 fw-bold text-dark mb-1">Mon Profil Patient</h1>
+      <p class="text-muted mb-0">Gérez vos coordonnées, contacts d'urgence et paramètres de sécurité.</p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Personal info & Health insurance -->
+    <div class="col-lg-8">
+      <!-- Personal Info Card -->
+      <div class="card border-0 shadow-sm bg-white mb-4">
+        <div class="card-header bg-white py-3 border-bottom">
+          <h2 class="h5 fw-bold mb-0 text-dark">
+            <i class="bi bi-person-lines-fill me-2 text-primary"></i>Coordonnées personnelles
+          </h2>
+        </div>
+        <div class="card-body p-4">
+          <form action="/patient/profil/update" method="POST">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="name" class="form-label fw-semibold">Nom complet</label>
+                <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" required>
+              </div>
+              <div class="col-md-6">
+                <label for="email" class="form-label fw-semibold">Adresse e-mail</label>
+                <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" required>
+              </div>
+              <div class="col-md-6">
+                <label for="phone" class="form-label fw-semibold">Téléphone</label>
+                <input type="tel" class="form-control" id="phone" name="phone" value="<%= user.phone || '+228 90 12 34 56' %>">
+              </div>
+              <div class="col-md-6">
+                <label for="dob" class="form-label fw-semibold">Date de naissance</label>
+                <input type="date" class="form-control" id="dob" name="dob" value="<%= user.dob || '1988-06-14' %>">
+              </div>
+              <div class="col-12">
+                <label for="address" class="form-label fw-semibold">Adresse postale / Quartier</label>
+                <input type="text" class="form-control" id="address" name="address" value="<%= user.address || 'Boulevard Circulaire, Lomé' %>">
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <h3 class="h6 fw-bold text-dark mb-3">Contact en cas d'urgence</h3>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="emergency_name" class="form-label fw-semibold">Nom du contact</label>
+                <input type="text" class="form-control" id="emergency_name" name="emergency_name" value="<%= user.emergency_name || 'Marie Kouassi (Épouse)' %>">
+              </div>
+              <div class="col-md-6">
+                <label for="emergency_phone" class="form-label fw-semibold">Téléphone d'urgence</label>
+                <input type="tel" class="form-control" id="emergency_phone" name="emergency_phone" value="<%= user.emergency_phone || '+228 91 65 43 21' %>">
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <h3 class="h6 fw-bold text-dark mb-3">Couverture Santé & Mutuelle</h3>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="insurance_company" class="form-label fw-semibold">Compagnie d'assurance / Mutuelle</label>
+                <input type="text" class="form-control" id="insurance_company" name="insurance_company" value="<%= user.insurance_company || 'Santé Assurances Togo' %>">
+              </div>
+              <div class="col-md-6">
+                <label for="insurance_number" class="form-label fw-semibold">N° d'adhérent / police</label>
+                <input type="text" class="form-control" id="insurance_number" name="insurance_number" value="<%= user.insurance_number || 'SAT-2025-8841' %>">
+              </div>
+            </div>
+
+            <div class="mt-4 pt-2">
+              <button type="submit" class="btn btn-primary fw-semibold px-4">
+                <i class="bi bi-check2-circle me-1"></i> Mettre à jour mon profil
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Avatar & Security -->
+    <div class="col-lg-4">
+      <!-- Profile Card Summary -->
+      <div class="card border-0 shadow-sm bg-white mb-4 text-center p-4">
+        <div class="position-relative d-inline-block mx-auto mb-3">
+          <img src="https://ui-avatars.com/api/?name=<%= encodeURIComponent(user.name) %>&background=005BAC&color=fff&size=128" class="rounded-circle shadow-sm" width="96" height="96" alt="Avatar">
+        </div>
+        <h2 class="h5 fw-bold text-dark mb-1"><%= user.name %></h2>
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 mb-2">Patient Vérifié</span>
+        <p class="text-muted small mb-0">Membre depuis <%= user.created_at || 'Janvier 2025' %></p>
+      </div>
+
+      <!-- Security / Password Card -->
+      <div class="card border-0 shadow-sm bg-white p-4">
+        <h3 class="h6 fw-bold text-dark mb-3">
+          <i class="bi bi-shield-lock me-2 text-primary"></i>Sécurité du compte
+        </h3>
+        <form action="/patient/profil/password" method="POST">
+          <div class="mb-3">
+            <label for="current_password" class="form-label fw-semibold small">Mot de passe actuel</label>
+            <input type="password" class="form-control" id="current_password" name="current_password" required>
+          </div>
+          <div class="mb-3">
+            <label for="new_password" class="form-label fw-semibold small">Nouveau mot de passe</label>
+            <input type="password" class="form-control" id="new_password" name="new_password" minlength="6" required>
+          </div>
+          <div class="mb-3">
+            <label for="new_password_confirmation" class="form-label fw-semibold small">Confirmer le mot de passe</label>
+            <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" minlength="6" required>
+          </div>
+          <button type="submit" class="btn btn-outline-primary w-100 fw-semibold">
+            Modifier le mot de passe
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/app-footer') %>
