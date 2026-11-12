@@ -1,23 +1,27 @@
-# Application de Gestion de Rendez-vous Médicaux
+# Rdv — Application de gestion de rendez-vous médicaux
 
-Une application Laravel pour gérer les rendez-vous médicaux.
+Application web de gestion des rendez-vous médicaux : patients, médecins, prise de rendez-vous et tableau de bord administrateur.
 
 ## Fonctionnalités
+
 - Gestion des patients
 - Gestion des médecins
 - Prise de rendez-vous
 - Tableau de bord administrateur
 
-## Installation
-1. Clone le projet : `git clone https://github.com/JasmineKuevi/Rdv.git`
-2. `composer install`
-3. `npm install`
-4. Copie `.env.example` vers `.env`
-5. `php artisan key:generate`
-6. `php artisan migrate`
-7. `php artisan serve`
-
 ## Technologies
-- Laravel
+
+- Node.js
+- Express
+- EJS
+- JavaScript
 - SQLite
-- Bootstrap
+
+## Installation
+
+```bash
+git clone https://github.com/JasmineKuevi/Rdv.git
+cd Rdv
+npm install
+cp .env.example .env
+npm start
